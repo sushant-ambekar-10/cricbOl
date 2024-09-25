@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CricbOl</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensures the video covers the entire background */
+      z-index: -1; /* Sends the video behind the content */
+    }
+
+    /* Optional: Content over the video */
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+
+<body>
+  
+  <video class="video-background" autoplay muted loop>
+    <source src="src/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Optional Content Over the Video -->
+  <div class="content">
+    <div>
+      <!-- <img id="home-back" src="src/logo.png"> -->
+      <video id="logo" autoplay muted loop>
+        <source src="src/logo-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <div id="datetime" style="display: inline; margin-left: 70%; font-size: 15px; background-color: rgba(0, 0, 0, 0.434); border-radius: 10px;padding: 20px;font-family: Arial, Helvetica, sans-serif;" ></div>
+
+      <video id="logo1" autoplay muted loop style="display: none; border-radius: 20px; opacity:0.5; height: 80%; margin: auto; ">
+        <source src="src/logob.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video> 
+      <div id="container" style="padding: 1%;">
+          <input type="email" id="join" placeholder="username" ><br>
+          <hr id="hr">
+          <input type="password" id="login" placeholder="password"><br>
+          <button id="next" style="margin:10%">next</button>
+          <script>
+            document.getElementById('next').addEventListener('click', function() {
+              // Hide the input fields and the button
+              document.getElementById('join').style.display = 'none';
+              document.getElementById('login').style.display = 'none';
+              document.getElementById('next').style.display = 'none';
+              document.getElementById('hr').style.display = 'none';
+        
+              // Show and play the video inside the container
+              var video = document.getElementById('logo1');
+              video.style.display = 'block';
+              
+              // Move the video into the container div
+              document.getElementById('container').appendChild(video);
+
+              setTimeout(function() {
+                  video.style.display = 'none'; // Hide the video
+
+                  // Show the input fields and the button again
+                  document.getElementById('join').style.display = 'block';
+                  document.getElementById('join').style = 'margin: auto;margin-top: 17%;';
+                  document.getElementById('login').style.display = 'block';
+                  document.getElementById('next').style.display = 'block';
+                  document.getElementById('next').style = 'margin:10%';
+                  document.getElementById('hr').style.display = 'block';
+                }, 2000); // 5000 milliseconds = 5 seconds
+              });
+          </script>
+
+<script>
+  function updateDateTime() {
+    var now = new Date();
+    var day = now.getDate();
+    var month = now.getMonth() + 1; // Months are zero-indexed
+    var year = now.getFullYear();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+
+    // Format the time and date to be more readable
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    var timeString = hours + ":" + minutes + ":" + seconds;
+    var dateString = day + "/" + month + "/" + year;
+
+    // Display the date and time
+    document.getElementById('datetime').innerHTML = dateString + " " + timeString;
+  }
+
+  // Update the time and date every second
+  setInterval(updateDateTime, 1000);
+  updateDateTime(); // Initial call to display the time right away
+</script>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getDatabase,set,get,ref,child} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDDHva71XWWaGHUaypqHaXBfMYZ5pxa5Vs",
+    authDomain: "cricbol-f41f9.firebaseapp.com",
+    projectId: "cricbol-f41f9",
+    storageBucket: "cricbol-f41f9.appspot.com",
+    messagingSenderId: "341283780860",
+    appId: "1:341283780860:web:f7dc1e7811e86fd408bf79"
+  };
+
+// Initialize Firebase
+  const app = initializeApp(firebaseConfig);  
+  const db = getDatabase(app);
+
+  function retrieve(){
+      
+      const uref=ref(db);
+      let username=document.getElementById("join").value;
+      let password=document.getElementById("login").value;
+
+      if(username=="" || password=="" )
+                    alert("Enter Credentials !!"); 
+      else {
+
+      get(child(uref,'users')).then((data)=>{
+          data.forEach(data=>{
+              if(data.val().username==username && data.val().password==password)
+              {
+                // alert("Got");
+                window.location.href = `home.html?uname=${encodeURIComponent(data.val().username)}&fname=${encodeURIComponent(data.val().first_name)}&lname=${encodeURIComponent(data.val().last_name)}&email=${encodeURIComponent(data.val().email)}&password=${encodeURIComponent(data.val().password)}&role=${encodeURIComponent(data.val().role)}&pincode=${encodeURIComponent(data.val().pincode)}`;
+              }
+          })
+      })
+    }
+
+}
+
+let button = document.getElementById('next');
+button.addEventListener('click', retrieve);
+
+</script>
+
+        
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

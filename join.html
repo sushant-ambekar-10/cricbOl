@@ -1,0 +1,427 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CricbOl</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+
+<body>
+  
+  <video class="video-background" autoplay muted loop>
+    <source src="src/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  
+  <div class="content">
+    <div>
+      
+      <video id="logo" autoplay muted loop>
+        <source src="src/logo-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <div id="datetime" style="display: inline; margin-left: 70%; font-size: 15px; background-color: rgba(0, 0, 0, 0.434); border-radius: 10px;padding: 20px;font-family: Arial, Helvetica, sans-serif;" ></div>
+
+      <video id="logo1" autoplay muted loop style="display: none; border-radius: 20px; opacity:0.5; height: 80%; margin: auto;">
+        <source src="src/logob.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video> 
+      <div id="container">
+          <input type="text" id="uname" placeholder="Username" style="animation: join 10s infinite;"><br>
+          <hr id="hr">
+          <input type="text" id="fname" placeholder="First Name" style="margin-top: 1%;">
+          <input type="text" id="lname" placeholder="Last Name"><br>
+          <button id="next" >Next</button>
+          <script>
+            function next() {
+              // Hide the input fields and the button
+              document.getElementById('uname').style.display = 'none';
+              document.getElementById('fname').style.display = 'none';
+              document.getElementById('lname').style.display = 'none';
+              document.getElementById('next').style.display = 'none';
+              document.getElementById('hr').style.display = 'none';
+              document.getElementById('container').style = 'padding-bottom: 3%;';
+
+        
+              // Show and play the video inside the container
+              var video = document.getElementById('logo1');
+              video.style.display = 'block';
+              
+              // Move the video into the container div
+              document.getElementById('container').appendChild(video);
+
+              setTimeout(function() {
+                  video.style.display = 'none'; // Hide the video
+
+                  // Show the input fields and the button again
+                  document.getElementById('uname').style.display = 'block';
+                  document.getElementById('uname').style = 'margin: auto;margin-top: 17%;';
+                  document.getElementById('lname').style.display = 'block';
+                  document.getElementById('next').style.display = 'block';
+                  document.getElementById('next').style = 'margin-bottom: 5%;';
+                  document.getElementById('hr').style.display = 'block';
+                  document.getElementById('container').style = 'padding-bottom: 0%;';
+                }, 2000); // 5000 milliseconds = 5 seconds
+              }
+          </script>
+
+<script>
+  function updateDateTime() {
+    var now = new Date();
+    var day = now.getDate();
+    var month = now.getMonth() + 1; // Months are zero-indexed
+    var year = now.getFullYear();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+
+    // Format the time and date to be more readable
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    var timeString = hours + ":" + minutes + ":" + seconds;
+    var dateString = day + "/" + month + "/" + year;
+
+    // Display the date and time
+    document.getElementById('datetime').innerHTML = dateString + " " + timeString;
+  }
+
+  // Update the time and date every second
+  setInterval(updateDateTime, 1000);
+  updateDateTime(); // Initial call to display the time right away
+</script>
+
+        <script type="module">
+          // Import the functions you need from the SDKs you need
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+          // TODO: Add SDKs for Firebase products that you want to use
+          // https://firebase.google.com/docs/web/setup#available-libraries
+          import { getDatabase,set,get,ref,child} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+          // Your web app's Firebase configuration
+          const firebaseConfig = {
+            apiKey: "AIzaSyDDHva71XWWaGHUaypqHaXBfMYZ5pxa5Vs",
+            authDomain: "cricbol-f41f9.firebaseapp.com",
+            projectId: "cricbol-f41f9",
+            storageBucket: "cricbol-f41f9.appspot.com",
+            messagingSenderId: "341283780860",
+            appId: "1:341283780860:web:f7dc1e7811e86fd408bf79"
+          };
+
+  // Initialize Firebase
+          const app = initializeApp(firebaseConfig);  
+          const db = getDatabase(app);
+
+          function post(){
+            if(document.getElementById("uname").placeholder=="username")
+            {
+            let unm=document.getElementById("uname").value;
+            let fnm=document.getElementById("fname").value;
+            let lnm=document.getElementById("lname").value;
+            // if(unm=="" || fnm=="" || lnm=="")
+            //     alert("Enter Credentials !!"); 
+            // else if(getData(unm)){
+            //     alert("Username already exists !!"); 
+            // }
+            // else
+            {
+
+                // let is=false;
+                // const uref=ref(db);
+                // let unm=document.getElementById("uname").value;
+                // if(get(child(uref,'users')).then((data)=>{
+                //     data.forEach(data=>{
+                //         if(data.val().username==unm)
+                //         {
+                //           return true;
+                //           // console.log(data.val().username);
+                //           // alert("Username already exists !!");
+                //         }
+                //     })
+                // }))
+                // {
+                //   alert("Username already exists !!");
+                //   return;
+                // }
+                // else{
+                  set(ref(db,'users/'+unm),{
+                  username:unm,
+                  first_name:fnm,
+                  last_name:lnm
+                 })
+                alert("Added"); 
+                next();
+                change();
+                // }
+              }
+            }
+            else if(document.getElementById("uname").placeholder=="username")
+            {
+                // if(unm=="" || lnm=="")
+                //     alert("Enter Credentials !!"); 
+                // else
+                { 
+                  set(ref(db,'users/'+unm),{
+                  email:unm,
+                  password:lnm
+                 })
+                alert("Added"); 
+                next();
+                }
+              }
+                
+
+              }
+
+
+              function change()
+              {
+                if(document.getElementById("uname").placeholder=="username")
+                {
+                  document.getElementById("uname").value="";
+                  document.getElementById("uname").placeholder="email";
+                  document.getElementById("lname").value="";
+                  document.getElementById("lname").placeholder="password";
+                }
+              }
+
+            // function getData(unm){
+      
+            // const uref=ref(db);
+
+            // get(child(uref,'users')).then((data)=>{
+            //     data.forEach(data=>{
+            //         if(data.val().name==unm)
+            //         {
+            //           return 1;
+            //         }
+            //     })
+            // })
+        // }
+
+        
+        let button = document.getElementById('next');
+        button.addEventListener('click', post);
+
+      </script>
+        
+      </div>
+    </div>
+  </div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CricbOl</title>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+  </style>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Background Video -->
+  <video class="video-background" autoplay muted loop>
+    <source src="src/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="content">
+    <div>
+      <!-- Logo Video -->
+      <video id="logo" autoplay muted loop>
+        <source src="src/logo-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Date & Time Display -->
+      <div id="datetime" style="display: inline; margin-left: 70%; font-size: 15px; background-color: rgba(0, 0, 0, 0.434); border-radius: 10px;padding: 20px;font-family: Arial, Helvetica, sans-serif;"></div>
+
+      <!-- Second Video (Initially Hidden) -->
+      <video id="logo1" autoplay muted loop style="display: none; border-radius: 20px; opacity:0.5; height: 80%; margin: auto;">
+        <source src="src/logob.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Input Form -->
+      <div id="container">
+        <input type="text" id="uname" placeholder="Username" style="animation: join 10s infinite;"><br>
+        <hr id="hr">
+        <input type="text" id="fname" placeholder="First Name" style="margin-top: 1%;">
+        <input type="text" id="lname" placeholder="Last Name"><br>
+        <button id="next">Next</button>
+      </div>
+
+      <script src="script.js"></script>
+
+      <!-- Date and Time Script -->
+      <script>
+        function updateDateTime() {
+          var now = new Date();
+          var day = now.getDate();
+          var month = now.getMonth() + 1; // Months are zero-indexed
+          var year = now.getFullYear();
+          var hours = now.getHours();
+          var minutes = now.getMinutes();
+          var seconds = now.getSeconds();
+
+          // Format time and date
+          minutes = minutes < 10 ? '0' + minutes : minutes;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          var timeString = hours + ":" + minutes + ":" + seconds;
+          var dateString = day + "/" + month + "/" + year;
+
+          // Display the date and time
+          document.getElementById('datetime').innerHTML = dateString + " " + timeString;
+        }
+
+        // Update the time and date every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call to display the time immediately
+      </script>
+
+      <!-- Next Button Script -->
+      <script>
+        function next(unm,fnm,lnm) {
+          // // Hide the input fields and the button
+          // document.getElementById('uname').style.display = 'none';
+          // document.getElementById('fname').style.display = 'none';
+          // document.getElementById('lname').style.display = 'none';
+          // document.getElementById('next').style.display = 'none';
+          // document.getElementById('hr').style.display = 'none';
+          // document.getElementById('container').style = 'padding-bottom: 3%;';
+
+          // // Show and play the video inside the container
+          // var video = document.getElementById('logo1');
+          // video.style.display = 'block';
+
+          // // Move the video into the container div
+          // document.getElementById('container').appendChild(video);
+
+          // // Hide video and show the form again after 2 seconds
+          // setTimeout(function () {
+          //   video.style.display = 'none'; // Hide the video
+          //   document.getElementById('uname').style.display = 'block';
+          //   document.getElementById('uname').style = 'margin: auto;margin-top: 17%;';
+          //   document.getElementById('lname').style.display = 'block';
+          //   document.getElementById('next').style.display = 'block';
+          //   document.getElementById('next').style = 'margin-bottom: 5%;';
+          //   document.getElementById('hr').style.display = 'block';
+          //   document.getElementById('container').style = 'padding-bottom: 0%;';
+          // }, 2000); // Hide after 2 seconds
+          // window.location.href = `email.html?uname=${encodeURIComponent(unm)}&fname=${encodeURIComponent(fnm)}&lname=${encodeURIComponent(lnm)}`;
+
+        }
+      </script>
+
+      <!-- Firebase Setup and Data Posting Script -->
+      <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDDHva71XWWaGHUaypqHaXBfMYZ5pxa5Vs",
+          authDomain: "cricbol-f41f9.firebaseapp.com",
+          projectId: "cricbol-f41f9",
+          storageBucket: "cricbol-f41f9.appspot.com",
+          messagingSenderId: "341283780860",
+          appId: "1:341283780860:web:f7dc1e7811e86fd408bf79"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Post data to Firebase
+        function post() {
+            let unm = document.getElementById("uname").value;
+            let fnm = document.getElementById("fname").value;
+            let lnm = document.getElementById("lname").value;
+
+            // set(ref(db, 'users/' + unm), {
+              // username: unm,
+              // first_name: fnm,
+              // last_name: lnm
+            // });
+            // alert("Added");
+
+            // u.username=unm;
+            // u.fname=fnm;
+            // u.lname=lnm;
+            // console.log(u.username+u.fname+u.lname);
+            next(unm,fnm,lnm);
+            if(unm=="" || fnm=="" || lnm=="")
+                alert("Enter Credentials !!"); 
+            else {
+              window.location.href = `email.html?uname=${encodeURIComponent(unm)}&fname=${encodeURIComponent(fnm)}&lname=${encodeURIComponent(lnm)}`;
+            }
+
+
+          }
+
+        let button = document.getElementById('next');
+        button.addEventListener('click', post);
+      </script>
+    </div>
+  </div>
+
+</body>
+</html>

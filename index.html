@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CricbOl</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+      z-index: -1; 
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+
+<body>
+  
+  <video class="video-background" autoplay muted loop>
+    <source src="src/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="content">
+    <div>
+      <video id="logo" autoplay muted loop>
+        <source src="src/logo-2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <div id="datetime" style="display: inline; margin-left: 70%; font-size: 15px; background-color: rgba(0, 0, 0, 0.434); border-radius: 10px;padding: 20px;font-family: Arial, Helvetica, sans-serif;" ></div>
+
+      <video id="logo1" autoplay muted loop style="display: none; border-radius: 20px; opacity:0.5; height: 80%; margin: auto;">
+        <source src="src/logob.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video> 
+
+      <div id="container">
+          <button id="join" >Join Us</button><br>
+          <hr>
+          <button id="login">Login</button>
+      </div>
+
+      <script>
+        document.getElementById('join').addEventListener('click', function() {
+          window.location.href = 'join.html';
+        });
+        document.getElementById('login').addEventListener('click', function() {
+          window.location.href = 'login.html'; 
+        });
+        document.getElementById('logo').addEventListener('click', function() {
+          window.location.href = 'index.html'; 
+        });
+        function updateDateTime() {
+        var now = new Date();
+        var day = now.getDate();
+        var month = now.getMonth() + 1; // Months are zero-indexed
+        var year = now.getFullYear();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+
+        // Format the time and date to be more readable
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        var timeString = hours + ":" + minutes + ":" + seconds;
+        var dateString = day + "/" + month + "/" + year;
+
+        // Display the date and time
+        document.getElementById('datetime').innerHTML = dateString + " " + timeString;
+      }
+
+      // Update the time and date every second
+      setInterval(updateDateTime, 1000);
+      updateDateTime(); 
+      </script>
+
+    </div>
+  </div>
+
+</body>
+</html>
